@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 # This script analyzes an APK and tries to recover its .proto file, assuming
 # the APK is using Micro-Protobuf. It has only been tested on Google Play
 # Android client (sha1: 0f214c312f9800b01e2a5a7b9766dc880efda110).
@@ -108,23 +108,23 @@ def analyse_bb(bb, k, cn):
 ##############################################################
 
 if (len(sys.argv) != 2):
-    print "Usage: %s <apk>" % sys.argv[0]
-    print "Tries to recover the .proto file used by the given APK."
-    print "Works only with Micro-Protobuf apps, and has only been tested with Google Play."
-    print "For more information: http://www.segmentationfault.fr/publications/reversing-google-play-and-micro-protobuf-applications/"
-    print
+    print("Usage: %s <apk>" % sys.argv[0])
+    print("Tries to recover the .proto file used by the given APK.")
+    print("Works only with Micro-Protobuf apps, and has only been tested with Google Play.")
+    print("For more information: http://www.segmentationfault.fr/publications/reversing-google-play-and-micro-protobuf-applications/")
+    print()
     sys.exit(0)
 
 apk = APK(sys.argv[1])
 dvm = DalvikVMFormat(apk.get_dex())
 vma = uVMAnalysis(dvm)
 
-proto_classes = filter(lambda c: "MessageMicro;" in c.get_superclassname(), dvm.get_classes())
+proto_classes = list(filter(lambda c: "MessageMicro;" in c.get_superclassname(), dvm.get_classes()))
 if (len(proto_classes) == 0):
-    print "Unable to find protobuf micro classes."
+    print("Unable to find protobuf micro classes.")
     sys.exit(0)
 
-proto_class_names = map(lambda c: c.get_name(), proto_classes)
+proto_class_names = list(map(lambda c: c.get_name(), proto_classes))
 
 """
 cn = proto_class_names[1]
@@ -159,7 +159,7 @@ messages_dep = treeify([k.split('$') for k in messages_info])
 
 def print_proto(d, parent = (), indent=0):
     """Display all protos"""
-    for m, sd in sorted(d.items(), cmp=lambda x,y: cmp(x[0],y[0])):
+    for m, sd in sorted(d.items(), key=lambda x: x[0]):
         full_name_l = parent+(m,)
         full_name = '$'.join(full_name_l)
 
@@ -181,9 +181,9 @@ def print_message(name, sd, parent, indent, title="message", extras=[]):
     # messages_printed[full_name] = True
 
     if (title == "message"):
-        print indent*"    " + "message %s {" % (name)
+        print(indent*"    " + "message %s {" % (name))
     else:
-        print indent*"    " + "%s group %s = %d {" % (extras[0], name, extras[1])
+        print(indent*"    " + "%s group %s = %d {" % (extras[0], name, extras[1]))
 
     i = indent+1
     infos = messages_info[full_name]
@@ -192,15 +192,15 @@ def print_message(name, sd, parent, indent, title="message", extras=[]):
     groups = [field for (field, typ, _) in infos.values() if typ == 'group']
     print_proto(dict([(k, m) for (k, m) in sd.items() if k not in groups]), full_name_l, i)
 
-    for k, info in sorted(infos.items(), cmp=lambda x,y: cmp(x[0],y[0])):
+    for k, info in sorted(infos.items(), key=lambda x: x[0]):
         field, typ, rule = info
 
         if (typ == 'group'):
             print_message(field, sd[field], full_name_l, i, "group", (rule, k))
         else:
-            print '    '*i + ' '.join([rule, typ.split('$')[-1], ulfirst(field)]) + ' = %d;' % k
+            print('    '*i + ' '.join([rule, typ.split('$')[-1], ulfirst(field)]) + ' = %d;' % k)
 
-    print indent*"    " + "}"
+    print(indent*"    " + "}")
 
 print_proto(messages_dep)
 

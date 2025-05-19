@@ -1,10 +1,10 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 
 # Do not remove
 GOOGLE_LOGIN = GOOGLE_PASSWORD = AUTH_TOKEN = None
 
 import sys
-import urlparse
+import urllib.parse as urlparse
 from pprint import pprint
 from google.protobuf import text_format
 
@@ -15,7 +15,7 @@ api = GooglePlayAPI(ANDROID_ID)
 api.login(GOOGLE_LOGIN, GOOGLE_PASSWORD, AUTH_TOKEN)
 response = api.browse()
 
-print SEPARATOR.join(["ID", "Name"])
+print(SEPARATOR.join(["ID", "Name"]))
 for c in response.category:
-  print SEPARATOR.join(i.encode('utf8') for i in [urlparse.parse_qs(c.dataUrl)['cat'][0], c.name])
+  print(SEPARATOR.join([urlparse.parse_qs(c.dataUrl)['cat'][0], c.name]))
 
