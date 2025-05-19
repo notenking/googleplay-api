@@ -11,7 +11,7 @@ This library is inspired by those projects, working with the old version of the 
 **This is not an official API. I am not afiliated with Google in any way, and am not responsible of any damage that could be done with it. Use it at your own risk.**
 
 ## Dependencies
-* [Python 2.5+](http://www.python.org)
+* Python 3
 * [Protocol Buffers](http://code.google.com/p/protobuf/)
 
 ## Requirements

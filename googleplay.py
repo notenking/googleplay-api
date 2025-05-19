@@ -1,9 +1,9 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 
 import base64
 import gzip
 import pprint
-import StringIO
+from io import BytesIO
 import requests
 
 from google.protobuf import descriptor
@@ -95,7 +95,7 @@ class GooglePlayAPI(object):
 
         # put your auth token in config.py to avoid multiple login requests
         if self.debug:
-            print "authSubToken: " + authSubToken
+            print("authSubToken: " + authSubToken)
 
     def login(self, email=None, password=None, authSubToken=None):
         """Login to your Google Account. You must provide either:
@@ -164,7 +164,7 @@ class GooglePlayAPI(object):
             data = response.content
 
         '''
-        data = StringIO.StringIO(data)
+        data = BytesIO(data)
         gzipper = gzip.GzipFile(fileobj=data)
         data = gzipper.read()
         '''

@@ -4,6 +4,11 @@ from google.protobuf import descriptor
 from google.protobuf import message
 from google.protobuf import reflection
 from google.protobuf import descriptor_pb2
+
+try:
+    unicode
+except NameError:  # Python 3 compatibility
+    unicode = str
 # @@protoc_insertion_point(imports)
 
 

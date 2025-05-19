@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 
 # Do not remove
 GOOGLE_LOGIN = GOOGLE_PASSWORD = AUTH_TOKEN = None
@@ -11,9 +11,9 @@ from googleplay import GooglePlayAPI
 from helpers import sizeof_fmt, print_header_line, print_result_line
 
 if (len(sys.argv) < 2):
-    print "Usage: %s request [nb_results] [offset]" % sys.argv[0]
-    print "Search for an app."
-    print "If request contains a space, don't forget to surround it with \"\""
+    print("Usage: %s request [nb_results] [offset]" % sys.argv[0])
+    print("Search for an app.")
+    print("If request contains a space, don't forget to surround it with \"\"")
     sys.exit(0)
 
 request = sys.argv[1]
@@ -32,7 +32,7 @@ api.login(GOOGLE_LOGIN, GOOGLE_PASSWORD, AUTH_TOKEN)
 try:
     message = api.search(request, nb_res, offset)
 except:
-    print "Error: something went wrong. Maybe the nb_res you specified was too big?"
+    print("Error: something went wrong. Maybe the nb_res you specified was too big?")
     sys.exit(1)
 
 print_header_line()

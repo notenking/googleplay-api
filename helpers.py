@@ -18,7 +18,7 @@ def print_header_line():
                 "Rating",
                 "Num Downloads",
              ]
-    print SEPARATOR.join(l)
+    print(SEPARATOR.join(l))
 
 def print_result_line(c):
     #c.offer[0].micros/1000000.0
@@ -33,5 +33,5 @@ def print_result_line(c):
                 sizeof_fmt(c.details.appDetails.installationSize),
                 "%.2f" % c.aggregateRating.starRating,
                 c.details.appDetails.numDownloads]
-    print SEPARATOR.join(unicode(i).encode('utf8') for i in l)
+    print(SEPARATOR.join(str(i) for i in l))
 
